@@ -151,14 +151,17 @@ def parseSong(match):
 
 # get the filename from the command line
 filename = sys.argv[1]
+linecount = 0
 
 # open the file
 with open(filename, 'r', errors='replace') as f:
+	print ("Reading {}".format(filename))
 	# compile a regular expression that matches the [SONG-...] format.  It looks like this:
 	# [SONG-<song name>:<base 64 data>:<melody instrument>:<bass instrument>:<percussion instrument>]
 	pat = re.compile('\[SONG-([^:]+):([^:]+):([^:]+):([^:]+):([^:\]]+)\]')
 	# read the file line by line
 	for line in f.readlines():
+		linecount += 1
 		# search for a song.  I'm assuming there is only one per line
 		match = pat.search(line)
 		if match != None: 
@@ -167,3 +170,4 @@ with open(filename, 'r', errors='replace') as f:
 			# run the parser
 			parseSong(match)
 # done
+print ("read {} lines".format(linecount))
